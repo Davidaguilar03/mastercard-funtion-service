@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
-LOG_PATH = os.path.join(os.path.dirname(__file__), "..", "logs", "mastercard.log")
+LOG_PATH = os.getenv("LOG_PATH", "logs/mastercard.log")
 
 def log(nivel: str, mensaje: str, extra: dict = {}):
     os.makedirs(os.path.dirname(LOG_PATH), exist_ok=True)
