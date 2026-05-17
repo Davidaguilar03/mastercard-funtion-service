@@ -58,4 +58,4 @@ def validar_mastercard(request):
         return {"valido": True, "mensaje": "Tarjeta válida"}, 200
 
     log("ERROR", "Tarjeta no encontrada", {"usuario": usuario})
-    return {"valido": False, "mensaje": "Tarjeta no válida o no habilitada"}, 200
+    return {"valido": False, "mensaje": "Tarjeta no válida"}, 200
