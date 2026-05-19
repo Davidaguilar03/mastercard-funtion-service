@@ -1,0 +1,106 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Mastercard Validation Service",
+    "version": "1.0.0",
+    "description": "Valida si una tarjeta Mastercard pertenece a un usuario registrado."
+  },
+  "paths": {
+    "/validar_mastercard": {
+      "get": {
+        "summary": "Validar tarjeta Mastercard",
+        "description": "Verifica que el número de tarjeta y el usuario existan en la base de datos.",
+        "operationId": "validarMastercard",
+        "parameters": [
+          {
+            "name": "numero_tarjeta",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Número de la tarjeta Mastercard."
+          },
+          {
+            "name": "usuario",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Nombre de usuario asociado a la tarjeta."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resultado de la validación.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidacionResponse"
+                },
+                "examples": {
+                  "valida": {
+                    "summary": "Tarjeta válida",
+                    "value": {
+                      "valido": true,
+                      "mensaje": "Tarjeta válida"
+                    }
+                  },
+                  "invalida": {
+                    "summary": "Tarjeta no encontrada",
+                    "value": {
+                      "valido": false,
+                      "mensaje": "Tarjeta no válida"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Parámetros faltantes.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                },
+                "example": {
+                  "error": "Faltan parámetros numero_tarjeta y usuario"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ValidacionResponse": {
+        "type": "object",
+        "required": ["valido", "mensaje"],
+        "properties": {
+          "valido": {
+            "type": "boolean",
+            "description": "Indica si la tarjeta es válida."
+          },
+          "mensaje": {
+            "type": "string",
+            "description": "Descripción del resultado."
+          }
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "required": ["error"],
+        "properties": {
+          "error": {
+            "type": "string",
+            "description": "Descripción del error."
+          }
+        }
+      }
+    }
+  }
+}
